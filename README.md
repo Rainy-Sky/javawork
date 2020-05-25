@@ -5,7 +5,7 @@ https://github.com/vilhelmmelkstam/paper.io
 
 ## 任务分配
 
-Paper,Setting,menu|Board|Player相关，Painter，tile|Date
+Paper,Setting,menu|Board|Player相关，Painter，tile|Data
 ---|---|---|---
  ？ | ？ | ？ | ？ 
 
