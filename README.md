@@ -9,6 +9,22 @@ Paper,Setting,menu|Board|Player相关，Painter，tile|Data
 ---|---|---|---
  ？ | ？ | ？ | ？ 
 
+#### Paper,Setting,menu
+
+GUI相关设计
+
+menu能够选择游戏模式，展示游戏排行分数
+
+setting设置相关游戏参数
+
+#### Board
+
+游戏面板，相关逻辑操作
+
+#### Data
+
+建立本地数据库储存，储存游戏评分
+
 ## 相关建议
 
 #### GUI Menu Setting PaperIO
@@ -19,7 +35,7 @@ Paper,Setting,menu|Board|Player相关，Painter，tile|Data
 
 增加鼠标控制控制方向
 
-#### Date
+#### Data
 
 本地数据库记录每次游戏相应的成绩
 
