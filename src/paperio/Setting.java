@@ -15,8 +15,9 @@ public class Setting extends JPanel {
     private JSpinner areaWidthSpnr;
     private JSpinner gameSpeedSpnr;
     private JSpinner botNumberSpnr;
+    private JSpinner musicSpnr;
 	private ActionListener actionListener;
-	/*
+	/**
 	 * 初始化设置界面
 	 */
 	Setting(ActionListener actionListener){
@@ -33,6 +34,8 @@ public class Setting extends JPanel {
 	}
 	private void addComponents() {
 		tip=new JLabel("SETTING");
+		JLabel musicVoice = new JLabel("Game music voice:");
+		musicSpnr = new JSpinner(new SpinnerNumberModel(1,0,2,0.5));
 		JLabel areaHeightLabel = new JLabel("Game area height:");
         areaHeightSpnr = new JSpinner(new SpinnerNumberModel(100, 25, 500, 5));
         JLabel areaWidthLabel = new JLabel("Game area width:");
@@ -49,54 +52,64 @@ public class Setting extends JPanel {
         button_back.setBackground(Color.DARK_GRAY);
         button_back.setFocusPainted(false);
         button_back.setBorderPainted(false);
-        /*
+        /**
          *  Style setting labels
          */
         tip.setFont(new Font("Monospaced", Font.PLAIN, 36));
         tip.setForeground(Color.WHITE);
         tip.setHorizontalAlignment(JLabel.RIGHT);
-        tip.setBounds(200, 50, 500, 150);
+        tip.setBounds(200, 0, 500, 150);
         areaHeightLabel.setFont(new Font("Monospaced", Font.PLAIN, 24));
         areaHeightLabel.setForeground(Color.WHITE);
         areaHeightLabel.setHorizontalAlignment(JLabel.RIGHT);
-        areaHeightLabel.setBounds(400, 200, 300, 100);
+        areaHeightLabel.setBounds(400, 150, 300, 100);
         areaWidthLabel.setFont(new Font("Monospaced", Font.PLAIN, 24));
         areaWidthLabel.setForeground(Color.WHITE);
         areaWidthLabel.setHorizontalAlignment(JLabel.RIGHT);
-        areaWidthLabel.setBounds(400, 300, 300, 100);
+        areaWidthLabel.setBounds(400, 250, 300, 100);
         speedLabel.setFont(new Font("Monospaced", Font.PLAIN, 24));
         speedLabel.setForeground(Color.WHITE);
         speedLabel.setHorizontalAlignment(JLabel.RIGHT);
-        speedLabel.setBounds(400, 400, 300, 100);
+        speedLabel.setBounds(400, 350, 300, 100);
         botNumberLabel.setFont(new Font("Monospaced", Font.PLAIN, 24));
         botNumberLabel.setForeground(Color.WHITE);
         botNumberLabel.setHorizontalAlignment(JLabel.RIGHT);
-        botNumberLabel.setBounds(400, 500, 300, 100);
+        botNumberLabel.setBounds(400, 450, 300, 100);
+        musicVoice.setFont(new Font("Monospaced", Font.PLAIN, 24));
+        musicVoice.setForeground(Color.WHITE);
+        musicVoice.setHorizontalAlignment(JLabel.RIGHT);
+        musicVoice.setBounds(400, 550, 300, 100);
 
-        /*
+        /**
          *  Style setting spinners
          */
         textField = (JTextField)areaHeightSpnr.getEditor().getComponent(0);
-        areaHeightSpnr.setBounds(700, 225, 70 ,50);
+        areaHeightSpnr.setBounds(700, 175, 70 ,50);
         areaHeightSpnr.setFont(new Font("Monospaced", Font.PLAIN, 24));
         textField.setBackground(Color.pink);
         textField.setForeground(Color.WHITE);
         textField.setHorizontalAlignment(JTextField.LEFT);
         textField = (JTextField)areaWidthSpnr.getEditor().getComponent(0);
-        areaWidthSpnr.setBounds(700, 325, 70 ,50);
+        areaWidthSpnr.setBounds(700, 275, 70 ,50);
         areaWidthSpnr.setFont(new Font("Monospaced", Font.PLAIN, 24));
         textField.setBackground(Color.pink);
         textField.setForeground(Color.WHITE);
         textField.setHorizontalAlignment(JTextField.LEFT);
         textField = (JTextField)gameSpeedSpnr.getEditor().getComponent(0);
-        gameSpeedSpnr.setBounds(700, 425, 70 ,50);
+        gameSpeedSpnr.setBounds(700, 375, 70 ,50);
         gameSpeedSpnr.setFont(new Font("Monospaced", Font.PLAIN, 24));
         textField.setBackground(Color.pink);
         textField.setForeground(Color.WHITE);
         textField.setHorizontalAlignment(JTextField.LEFT);
         textField = (JTextField)botNumberSpnr.getEditor().getComponent(0);
-        botNumberSpnr.setBounds(700, 525, 70 ,50);
+        botNumberSpnr.setBounds(700, 475, 70 ,50);
         botNumberSpnr.setFont(new Font("Monospaced", Font.PLAIN, 24));
+        textField.setBackground(Color.pink);
+        textField.setForeground(Color.WHITE);
+        textField.setHorizontalAlignment(JTextField.LEFT);
+        textField = (JTextField)musicSpnr.getEditor().getComponent(0);
+        musicSpnr.setBounds(700, 575, 70 ,50);
+        musicSpnr.setFont(new Font("Monospaced", Font.PLAIN, 24));
         textField.setBackground(Color.pink);
         textField.setForeground(Color.WHITE);
         textField.setHorizontalAlignment(JTextField.LEFT);
@@ -108,7 +121,7 @@ public class Setting extends JPanel {
                 speedLabel, gameSpeedSpnr,
                 botNumberLabel, botNumberSpnr};
 
-        /*
+        /**
          *  Add setting labels and spinners
          */
         for(JComponent component : settingComponents){
@@ -141,5 +154,12 @@ public class Setting extends JPanel {
      */
     public int getBotNumber() {
         return Integer.valueOf(((JTextField)botNumberSpnr.getEditor().getComponent(0)).getText());
+    }
+    
+    /**
+     * 获取音量大小
+     */
+    public double getVoice() {
+    	return Double.parseDouble(((JTextField)botNumberSpnr.getEditor().getComponent(0)).getText());
     }
 }

@@ -1,4 +1,4 @@
-package oo.paperioown;
+package paperio;
 
 import javax.swing.*;
 import java.awt.*;
@@ -383,9 +383,7 @@ public class Board extends JPanel {
     private void endGame(){
         JOptionPane.showMessageDialog(this,
                 "You lost, game over", "GAME OVER", JOptionPane.PLAIN_MESSAGE);
-        for(Player player : humanPlayers){
-            Data.addScores(player.getName(), player.getPercentOwned());
-        }
+        
         actionListener.actionPerformed(new ActionEvent(this, 0, "End Game"));
     }
 

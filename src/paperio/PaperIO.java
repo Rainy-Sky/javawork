@@ -38,6 +38,7 @@ public class PaperIO extends JFrame implements ActionListener{
      * 设置窗口参数
      */
     private void initUI(){
+    	Data data;
 
         setSize(1280, 720);
         setLocation(600,600);
@@ -52,7 +53,7 @@ public class PaperIO extends JFrame implements ActionListener{
 
         menu = new Menu(this);
         setting = new Setting(this);
-        record = new Record(this);
+        record = new Record(this,menu.getP1Name(), menu.getP2Name());
         cards = new JPanel(new CardLayout());
         cards.add(menu, "menu");
         cards.add(setting,"setting");
@@ -94,6 +95,7 @@ public class PaperIO extends JFrame implements ActionListener{
         	if(board!=null)
         		board.setPaused(true);
         }else if(s==STATE.RECORD) {
+        	cards.add(new Record(this,menu.getP1Name(), menu.getP2Name()),"record"); 
         	cardLayout.show(cards, "record");
         	if(board!=null)
         		board.setPaused(true);
@@ -128,18 +130,22 @@ public class PaperIO extends JFrame implements ActionListener{
             	setState(STATE.MENU);
             	break;
             case "record":
+            	cards.remove(record);
             	setState(STATE.RECORD);
+            	break;
+            case "music":
+            	setMusic(!flag);
             	break;
         }
     }
     
     
-    /*
+    /**
      * 设置游戏背景音乐
      */
 	static void playMusic() {
 		try {
-			AudioInputStream ais = AudioSystem.getAudioInputStream(new File("E:\\Eclipse\\学生管理系统\\src\\image\\测试2.wav"));
+			AudioInputStream ais = AudioSystem.getAudioInputStream(new File("music/PAPER_BGM.wav"));
 			AudioFormat aif = ais.getFormat();
 			final SourceDataLine sdl;
 			DataLine.Info info = new DataLine.Info(SourceDataLine.class, aif);
@@ -147,17 +153,18 @@ public class PaperIO extends JFrame implements ActionListener{
 			sdl.open(aif);
 			sdl.start();
 			FloatControl fc = (FloatControl) sdl.getControl(FloatControl.Type.MASTER_GAIN);
-			/* 
+			/**
 			 * value可以用来设置音量，从0-2.0
 			 */
-			double value = 2;
+
+		    double value=2.0;
 			float dB = (float) (Math.log(value == 0.0 ? 0.0001 : value) / Math.log(10.0) * 20.0);
 			fc.setValue(dB);
 			int nByte = 0;
 			int writeByte = 0;
 			final int SIZE = 1024 * 64;
 			byte[] buffer = new byte[SIZE];
-			/*
+			/**
 			 * 判断 播放/暂停 状态
 			 */
 			while (nByte != -1) {
@@ -173,11 +180,12 @@ public class PaperIO extends JFrame implements ActionListener{
 			e.printStackTrace();
 		}
 	}
-	/*
+	/**
 	 * 设置播放状态
 	 */
-	public static void setMusic(boolean flag){
-		PaperIO.flag=flag;
+	public static void setMusic(boolean val){
+		flag=val;
+		
 	}
     	
     public static void main(String[] args) {

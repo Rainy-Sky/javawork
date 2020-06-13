@@ -18,6 +18,8 @@ public class Menu extends JPanel{
 	private ImageIcon button2_pic;
 	private ImageIcon setting;
 	private ImageIcon record;
+	private ImageIcon music;
+	private JButton button_music;
 	private JButton button1;
 	private JButton button2;
 	private JButton button_set;
@@ -38,16 +40,18 @@ public class Menu extends JPanel{
         this.actionListener = actionListener;
 
         this.setOpaque(false);
-        back = new ImageIcon("img/background.jpg");//要设置的背景图片
-		JLabel imgLabel = new JLabel(back);//将背景图放在标签里。
+        back = new ImageIcon("img/background.jpg");
+		JLabel imgLabel = new JLabel(back);
 		imgLabel.setBounds(0, 0, back.getIconWidth(), back.getIconHeight());	
 		
 		button1_pic=new ImageIcon("img/play_Single.png");
 		button2_pic=new ImageIcon("img/play_multi.png");
 		record=new ImageIcon("img/record.jpg");
+		music=new ImageIcon("img/music.jpg");
 		button1=new JButton(button1_pic);
 		button2=new JButton(button2_pic);
 		button_record=new JButton(record);
+		button_music=new JButton(music);
 		
 		setting=new ImageIcon("img/setting.jpg");
 		button_set=new JButton(setting);
@@ -61,11 +65,12 @@ public class Menu extends JPanel{
      * Adds and styles all components in menu
      */
     private void addComponents(){ 
-        // Empty cells
         add(new JLabel(" "));
         add(new JLabel(" "));
 
-        // Play buttons
+        /**
+         *  Play buttons
+         */
 		add(button1);
 		add(button2);
         button1.setBounds(700,495,button1_pic.getIconWidth(),button1_pic.getIconHeight());
@@ -82,7 +87,9 @@ public class Menu extends JPanel{
         button2.setFocusPainted(false);
         button2.setBorderPainted(false);
 
-        // Name labels
+        /**
+         *  Name labels
+         */
         JLabel p1name = new JLabel("Player1 name:");
         JLabel p2name = new JLabel("Player2 name:");
 
@@ -100,11 +107,15 @@ public class Menu extends JPanel{
         p2name.setVerticalAlignment(JLabel.BOTTOM);
         add(p2name);
 
-        // Name text fields
+        /**
+         *  Name text fields
+         */
         p1NameFld = new JTextField(names[new Random().nextInt(names.length)]);
         p2NameFld = new JTextField(names[new Random().nextInt(names.length)]);
 
-        //Styles and adds name text fields
+        /**
+         * Styles and adds name text fields
+         */
         p1NameFld.setFont(new Font("Monospaced", Font.PLAIN, 25));
         p1NameFld.setBounds(480, 500, 200, 60);
         p1NameFld.setBackground(Color.DARK_GRAY);
@@ -136,6 +147,13 @@ public class Menu extends JPanel{
         button_record.setFocusPainted(false);
         button_record.setBorderPainted(false);
         add(button_record);
+        button_music.setBounds(1100,150,record.getIconWidth(),record.getIconHeight());
+        button_music.setActionCommand("music");
+        button_music.addActionListener(actionListener);
+        button_music.setBackground(Color.DARK_GRAY);
+        button_music.setFocusPainted(false);
+        button_music.setBorderPainted(false);
+        add(button_music);
     }
 
     /**

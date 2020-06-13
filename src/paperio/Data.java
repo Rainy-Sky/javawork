@@ -1,3 +1,4 @@
+package paperio;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -6,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 public class Data {
-    private static File record = new File("./", "record.data");
+    private static File record = new File("./data", "record.data");
     private static FileOutputStream fileOutputStream;
     private static FileInputStream fileInputStream;
     private static ObjectInputStream objectInputStream;
