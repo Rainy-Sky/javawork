@@ -2,7 +2,15 @@ package paperio;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.ArrayList;
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.SourceDataLine;
 
 /**
  * A HumanPlayer is a player controlled by a person. HumanPlayer adds reactions to key presses on top of abstract class
@@ -73,6 +81,9 @@ public class HumanPlayer extends Player {
     
     void die() {
         isAlive = false;
+        new Thread(()->{
+        		playMusic();
+        }).start();
         Data.addScores(this.getName(), this.getPercentOwned());
         ArrayList<Tile> ownedTilesCopy = (ArrayList<Tile>)tilesOwned.clone();
         ArrayList<Tile> contestedTilesCopy = (ArrayList<Tile>)tilesContested.clone();
@@ -88,4 +99,42 @@ public class HumanPlayer extends Player {
         currentTile = null;
 
     }
+    
+    static void playMusic() {
+		try {
+			AudioInputStream ais = AudioSystem.getAudioInputStream(new File("music/Over.wav"));
+			AudioFormat aif = ais.getFormat();
+			final SourceDataLine sdl;
+			DataLine.Info info = new DataLine.Info(SourceDataLine.class, aif);
+			sdl = (SourceDataLine) AudioSystem.getLine(info);
+			sdl.open(aif);
+			sdl.start();
+			FloatControl fc = (FloatControl) sdl.getControl(FloatControl.Type.MASTER_GAIN);
+			/**
+			 * value可以用来设置音量，从0-2.0
+			 */
+			boolean flag=true;
+		    double value=2.0;
+			float dB = (float) (Math.log(value == 0.0 ? 0.0001 : value) / Math.log(10.0) * 20.0);
+			fc.setValue(dB);
+			int nByte = 0;
+			int writeByte = 0;
+			final int SIZE = 1024 * 64;
+			byte[] buffer = new byte[SIZE];
+			/**
+			 * 判断 播放/暂停 状态
+			 */
+			while (nByte != -1) {
+				if(flag) {
+					nByte = ais.read(buffer, 0, SIZE);
+					sdl.write(buffer, 0, nByte);
+				}else {
+					nByte = ais.read(buffer, 0, 0);
+				}
+			}
+			sdl.stop();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

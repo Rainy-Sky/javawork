@@ -62,7 +62,7 @@ public class PaperIO extends JFrame implements ActionListener{
         
         new Thread(()->{
         	while(true) {
-        		playMusic();
+        		playMusic("music/PAPER_BGM.wav");
         	}
         }).start();
     }
@@ -83,6 +83,9 @@ public class PaperIO extends JFrame implements ActionListener{
      */
     private void setState(STATE s){
         CardLayout cardLayout = (CardLayout) cards.getLayout();
+        new Thread(()->{
+        		playMusic("music/Click.wav");
+        }).start();
         if(s == STATE.GAME){
             cardLayout.show(cards, "board");
             board.setPaused(false);
@@ -143,9 +146,9 @@ public class PaperIO extends JFrame implements ActionListener{
     /**
      * 设置游戏背景音乐
      */
-	static void playMusic() {
+	static void playMusic(String path) {
 		try {
-			AudioInputStream ais = AudioSystem.getAudioInputStream(new File("music/PAPER_BGM.wav"));
+			AudioInputStream ais = AudioSystem.getAudioInputStream(new File(path));
 			AudioFormat aif = ais.getFormat();
 			final SourceDataLine sdl;
 			DataLine.Info info = new DataLine.Info(SourceDataLine.class, aif);
