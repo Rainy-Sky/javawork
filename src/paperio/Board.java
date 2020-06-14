@@ -49,12 +49,12 @@ public class Board extends JPanel {
 
     /**
      * 单人模式面板
-     * @param actionListener listener for key presses and state updates
-     * @param p1name name of player
-     * @param areaHeight height of game area
-     * @param areaWidth width of game area
-     * @param gameSpeed game speed between 1 and 5, 5 being the fastest
-     * @param botNumber number of bots to have in game
+     * @param actionListener 状态更新的监听器
+     * @param p1name 玩家名
+     * @param areaHeight 游戏区域高度
+     * @param areaWidth 游戏区宽度
+     * @param gameSpeed 游戏速度，1-5
+     * @param botNumber bot的数目
      */
     Board(ActionListener actionListener, String p1name, int areaHeight, int areaWidth, int gameSpeed, int botNumber){
         this.actionListener = actionListener;
@@ -75,13 +75,13 @@ public class Board extends JPanel {
 
     /**
      * 多人模式面板
-     * @param actionListener listener for key presses and state updates
-     * @param p1name name of player 1
-     * @param p2name name of player 2
-     * @param areaHeight height of game area
-     * @param areaWidth width of game area
-     * @param gameSpeed game speed between 1 and 5, 5 being the fastest
-     * @param botNumber number of bots to have in game
+     * @param actionListener 状态更新的监听器
+     * @param p1name 玩家名1
+     * @param p2name 玩家名2
+     * @param areaHeight 游戏区域高度
+     * @param areaWidth 游戏区宽度
+     * @param gameSpeed 游戏速度，1-5
+     * @param botNumber bot的数目
      */
     Board(ActionListener actionListener, String p1name, String p2name, int areaHeight, int areaWidth, int  gameSpeed, int botNumber) {
         this.actionListener = actionListener;
@@ -239,7 +239,7 @@ public class Board extends JPanel {
 
     /**
      * 初始化每个玩家开始的区域，并设置好颜色
-     * @param player player to generate starting area for
+     * @param player 生成开始区域的玩家
      */
     private void startingArea(Player player){
         int x = player.getX();
@@ -257,8 +257,8 @@ public class Board extends JPanel {
 
     /**
      * 检查小范围内是否存在其他玩家
-     * @param player Player that you want to check surroundings for other players
-     * @return  True if nobody is close, False otherwise
+     * @param player 检查的玩家
+     * @return  附近没有人则返回True，有人则返回False
      */
     private boolean checkSpawn(Player player){
         int x = player.getX();
@@ -275,7 +275,7 @@ public class Board extends JPanel {
 
     /**
      * 重写方法，自定义画图
-     * @param g Graphics element used to draw elements on screen
+     * @param g 用于画图的Graphics对象
      */
     @Override
     public void paintComponent(Graphics g) {
@@ -302,7 +302,7 @@ public class Board extends JPanel {
 
     /**
      * 画出计分板
-     * @param g Graphics object received as argument in paintComponent method
+     * @param g 接受的计分版画图对象
      */
     private void drawScoreboard(Graphics g) {
         g.setFont(new Font("Monospaced", Font.PLAIN, 16));
@@ -411,18 +411,12 @@ public class Board extends JPanel {
 
     /**
      * 判断游戏中玩家之前的碰撞
-     * @param player Player you want to check collision for
-     * @param tile   Tile that Player currently is on
+     * @param player 想要判断碰撞的玩家
+     * @param tile   玩家所在的地图块
      */
     private void findCollision(Player player, Tile tile) {
-        // If corresponding tile is found in tilePlayerMap
         if(tilePlayerMap.containsKey(tile)) {
 
-            // Iterate through all entries in tilePlayerMap, if the Tile in entry matches Tile in input,
-            // compare sizes between players and destroy one of them. The player with the largest tiles contested
-            // survives. If both players have the same amount of tiles contested, the player with the most tiles
-            // owned survives. If both players have the same amount of tiles contested and tiles owned,
-            // the first player added to Players list dies.
             for(Map.Entry<Tile, Player> entry : tilePlayerMap.entrySet()) {
                 if (entry.getKey() == tile) {
                     if (entry.getValue().getTilesContested().size() > player.getTilesContested().size()) {
@@ -438,10 +432,9 @@ public class Board extends JPanel {
                     }
                 }
             }
-        }else { // If no corresponding tile is found, add tile and player to tilePlayerMap
+        }else {
             tilePlayerMap.put(tile, player);
         }
-        // Remove dead players
         players.removeIf(p -> !p.getAlive());
     }
 
@@ -459,7 +452,7 @@ public class Board extends JPanel {
      * 首先确定最大的矩形作为边界
      * 使用DFS对所有玩家未拥有的块进行DFS
      * 如果存在一块区域没有包含边界，则该区域需要被填满
-     * @param player The player whose enclosure to be filled
+     * @param player 需要填充区域的玩家
      */
     private void fillEnclosure(Player player) {
         // Set boundary
@@ -540,7 +533,7 @@ public class Board extends JPanel {
 
     /**
      * 暂停
-     * @param b True if game should be paused, false otherwise
+     * @param b 如果暂停返回True
      */
     void setPaused(Boolean b){
         paused = b;
@@ -548,7 +541,7 @@ public class Board extends JPanel {
 
     /**
      * 获取游戏区域高度
-     * @return height of game area
+     * @return 游戏区高度
      */
     int getAreaHeight() {
         return areaHeight;
@@ -556,7 +549,7 @@ public class Board extends JPanel {
 
     /**
      * 获取游戏区域宽度
-     * @return width of game area
+     * @return 游戏区宽度
      */
     int getAreaWidth() {
         return areaWidth;
@@ -564,7 +557,7 @@ public class Board extends JPanel {
 
     /**
      * 获取计时器
-     * @return current tick counter
+     * @return 目前的计时器数
      */
     int getTickCounter() {
         return tickCounter;
@@ -572,7 +565,7 @@ public class Board extends JPanel {
 
     /**
      * 获取重设计时器
-     * @return how often tick is reset
+     * @return 获得计时器重置频率
      */
     int getTickReset() {
         return tickReset;
@@ -580,21 +573,21 @@ public class Board extends JPanel {
 
     /**
      * 获得tile的坐标
-     * @param x x position of tile
-     * @param y y position of tile
-     * @return tile at position (x,y)
+     * @param x tile的x坐标
+     * @param y tile的y坐标
+     * @return （x,y）处的tile
      */
     Tile getTile(int x, int y){
         return gameArea[y][x];
     }
 
     /**
-     * ScheduleTask is responsible for receiving and responding to timer calls
+     * 定时器任务
      */
     private class ScheduleTask extends TimerTask {
 
         /**
-         * Gets called by timer at specified interval. Calls tick at specified rate and repaint each time
+         * 用于间隔调用tick()，完成游戏主逻辑
          */
         @Override
         public void run() {

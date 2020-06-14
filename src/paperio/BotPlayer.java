@@ -7,13 +7,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * BotPlayer adds bot movement on top of abstract class Player. Movement is randomised as long as it is valid moves. A
- * BotPlayer has a random Pokemon name.
+ * 这是继承自Player类的Bot玩家子类，由程序自动控制移动
  */
-class BotPlayer extends Player{
+class BotPlayer extends Player {
 
     // TODO read all names from file
-    private String[] names = {"Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle",
+    private String[] names = { "Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle",
             "Wartortle", "Blastoise", "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey",
             "Pidgeotto", "Pidgeot", "Rattata", "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu",
             "Sandshrew", "Sandslash", "Nidoran", "Nidorina", "Nidoqueen", "Nidoran", "Nidorino", "Nidoking", "Clefairy",
@@ -29,98 +28,144 @@ class BotPlayer extends Player{
             "Goldeen", "Seaking", "Staryu", "Starmie", "Mr. Mime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir",
             "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon",
             "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres",
-            "Dratini", "Dragonair", "Dragonite", "Mewtwo", "Mew"};
+            "Dratini", "Dragonair", "Dragonite", "Mewtwo", "Mew" };
 
     /**
-     * Constructs a new BotPLayer on a random spot on the game area with specified color with a randomized direction
-     * @param height height of game area player is constructed in
-     * @param width width of game area player is constructed in
-     * @param color the color of the player
+     * 构造一个BotPlayer
+     * 
+     * @param height 游戏区域的高度
+     * @param width  游戏区域的宽度
+     * @param color  Bot的颜色
      */
-    BotPlayer(int height, int width, Color color){
+    BotPlayer(int height, int width, Color color) {
         super(height, width, color);
         this.name = names[new Random().nextInt(names.length)];
     }
 
-    // TODO Make smarter bots
     /**
-     * Decides where the bot shall move and moves accordingly
+     * 采用随机的方式让AI移动
      */
     @Override
     public void move() {
         x += dx;
         y += dy;
         double rand = Math.random();
+        int old_dx=dx;
+        int old_dy=dy;
         if (rand < 0.05 && dx != -1) {
             dx = 1;
             dy = 0;
-        }else if (rand < 0.1 && dx != 1) {
+        } else if (rand < 0.1 && dx != 1) {
             dx = -1;
             dy = 0;
-        }else if (rand < 0.15 && dy != -1) {
+        } else if (rand < 0.15 && dy != -1) {
             dx = 0;
             dy = 1;
-        }else if (rand < 0.2 && dy != 1) {
+        } else if (rand < 0.2 && dy != 1) {
             dx = 0;
             dy = -1;
         }
+        if (!checkSuicide(dx, dy)) {
+            if (old_dx != -1) {
+                dx = 1;
+                dy = 0;
+                if (checkSuicide(dx, dy)) {
+                    return;
+                }
+            }
+            if (old_dx != 1) {
+                dx = -1;
+                dy = 0;
+                if (checkSuicide(dx, dy)) {
+                    return;
+                }
+            }
+            if (old_dy != -1) {
+                dx = 0;
+                dy = 1;
+                if (checkSuicide(dx, dy)) {
+                    return;
+                }
+            }
+            if (old_dy != 1) {
+                dx = 0;
+                dy = -1;
+                if (checkSuicide(dx, dy)) {
+                    return;
+                }
+            }
+        }
         avoidOutOfBounds();
-
     }
 
     /**
-     * Checks if player is moving outside of game area and changes direction to prevent it
+     * 预测是否会碰撞自己的尾迹
      */
-    private void avoidOutOfBounds(){
-        if(x == 0 && y == height - 1){
-            if(dx == -1){
+    private boolean checkSuicide(int ddx, int ddy) {
+        ArrayList<Tile> tilesContested = this.getTilesContested();
+        for (Tile tile : tilesContested) {
+            int tx = tile.getX();
+            int ty = tile.getY();
+            if (x + ddx == tx && y + ddy == ty) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 检查是否会碰壁
+     */
+    private void avoidOutOfBounds() {
+        if (x == 0 && y == height - 1) {
+            if (dx == -1) {
                 dx = 0;
                 dy = -1;
-            }else {
+            } else {
                 dx = 1;
                 dy = 0;
             }
-        }else if(x == width -1 && y == 0){
-            if(dx == 1){
+        } else if (x == width - 1 && y == 0) {
+            if (dx == 1) {
                 dx = 0;
                 dy = 1;
             } else {
                 dx = -1;
                 dy = 0;
             }
-        }else if(x == width - 1 && y == height -1){
-            if(dx == 1){
+        } else if (x == width - 1 && y == height - 1) {
+            if (dx == 1) {
                 dx = 0;
                 dy = -1;
-            }else {
+            } else {
                 dx = -1;
                 dy = 0;
             }
-        }else if(x == 0 && y == 0){
-            if(dx == -1){
+        } else if (x == 0 && y == 0) {
+            if (dx == -1) {
                 dx = 0;
                 dy = 1;
-            }else {
+            } else {
                 dx = 1;
                 dy = 0;
             }
-        }else if(x == 0 && dx == -1){
+        } else if (x == 0 && dx == -1) {
             dx = 0;
             dy = 1;
-        }else if(x == width -1 &&  dx == 1){
+        } else if (x == width - 1 && dx == 1) {
             dx = 0;
             dy = 1;
-        }else if(y == 0 && dy == -1){
+        } else if (y == 0 && dy == -1) {
             dx = 1;
             dy = 0;
-        }else if(y == height -1 && dy == 1){
+        } else if (y == height - 1 && dy == 1) {
             dx = 1;
             dy = 0;
         }
     }
 
     /**
-     * Overridden die method from Player. Adds a timer to the bot. After set interval, the bot will respawn
+     * 重写die方法. 在死亡一段时间后Bot会复活
      */
     @Override
     void die() {
@@ -131,6 +176,6 @@ class BotPlayer extends Player{
             public void run() {
                 setAlive(true);
             }
-        },5000);
+        }, 5000);
     }
 }
