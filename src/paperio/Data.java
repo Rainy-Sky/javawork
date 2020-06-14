@@ -26,7 +26,10 @@ public class Data {
             }
         }
     }
-
+    /**
+     * 获得文件中存储的历史分数
+     * @return 玩家的历史分数
+     */
 
     public static HashMap<String, Double> getScores() {
         try {
@@ -39,7 +42,11 @@ public class Data {
             return null;
         }
     }
-
+    /**
+     * 添加一份历史记录，如果不高于玩家名对应的最高分则不更新
+     * @param name 玩家名
+     * @param score 获得的分数
+     */
     public static void addScores(String name, double score) {
         try {
             fileInputStream = new FileInputStream(record);
@@ -55,7 +62,9 @@ public class Data {
             e.printStackTrace();
         }
     }
-
+    /**
+     * 清除玩家的历史记录
+     */
     public static void clearScores() {
         try {
             fileInputStream = new FileInputStream(record);

@@ -26,10 +26,10 @@ abstract class Player implements Comparable<Player> {
     protected Tile currentTile;
 
     /**
-     * Initializes a player on a random spot on the game area with specified color
-     * @param height height of game area player is constructed in
-     * @param width width of game area player is constructed in
-     * @param color the color of the player
+     * 在一个随机位置生成一个随机颜色的玩家
+     * @param height 游戏区域的高度
+     * @param width 游戏区域的宽度
+     * @param color 玩家的颜色
      */
     Player(int height, int width, Color color){
         x = (int)(Math.random() * (width - 2) +1);
@@ -66,35 +66,35 @@ abstract class Player implements Comparable<Player> {
     }
 
     /**
-     * The x position in the tile system
-     * @return x position in the tile system
+     * 获取玩家的x坐标
+     * @return 玩家的x坐标
      */
     int getX(){
         return x;
     }
 
     /**
-     * The y position in the tile system
-     * @return y position in the tile system
+     * 获取玩家的x坐标
+     * @return 玩家的x坐标
      */
     int getY(){
         return y;
     }
 
     /**
-     * @return color of the player
+     * @return 玩家的颜色
      */
     Color getColor(){
         return color;
     }
 
     /**
-     * Abstract method to move the player
+     * 玩家移动的抽象方法
      */
     abstract void move();
 
     /**
-     * Logic for when player gets killed. Turns all associated tiles to neutral
+     * 当玩家死亡时，把他的领地全部变成无色
      */
     void die() {
         isAlive = false;
@@ -114,8 +114,8 @@ abstract class Player implements Comparable<Player> {
     }
 
     /**
-     * Add tile to players list of owned tiles
-     * @param t Tile to be added to players owned list
+     * 将一个地图块加入玩家领地
+     * @param t 需要加入领地的地图快
      */
     void setTileOwned(Tile t){
         tilesOwned.add(t);
@@ -124,16 +124,16 @@ abstract class Player implements Comparable<Player> {
     }
 
     /**
-     * Remove a tile from owned
-     * @param t tile to be removed from owned
+     * 从领地中删除地图块
+     * @param t 需要删除的地图块
      */
     void removeTileOwned(Tile t){
         tilesOwned.remove(t);
     }
 
     /**
-     * Get tiles owned by player
-     * @return Tiles owned by player
+     * 获得玩家领地的地图块
+     * @return 玩家领地的地图块
      */
     ArrayList<Tile> getTilesOwned(){
         return tilesOwned;
@@ -148,7 +148,7 @@ abstract class Player implements Comparable<Player> {
     }
 
     /**
-     * Add tile to players list of contested tiles
+     * 将地图块添加到玩家竞争尾迹
      * @param t Tile to be added to players contested list
      */
     void setTileContested(Tile t){
@@ -157,8 +157,8 @@ abstract class Player implements Comparable<Player> {
     }
 
     /**
-     * Get tiles contested by player
-     * @return Tiles contested by player
+     * 获得玩家尾迹的地图块
+     * @return 玩家的尾迹地图块
      */
     ArrayList<Tile> getTilesContested(){
         return tilesContested;
@@ -166,7 +166,7 @@ abstract class Player implements Comparable<Player> {
 
 
     /**
-     * Sets contested tiles to owned by player
+     * 将玩家的尾迹转换为领土
      */
     void contestToOwned(){
         for (Tile t : tilesContested) {
@@ -176,8 +176,8 @@ abstract class Player implements Comparable<Player> {
     }
 
     /**
-     * Kills the player contesting a tile when travelling on it
-     * @param t tile which contested owner should get killed
+     * 玩家尾迹被其他人触碰
+     * @param t 被触碰的尾迹
      */
     void checkCollision(Tile t){
         if(t.getContestedOwner() != null) {
@@ -186,57 +186,57 @@ abstract class Player implements Comparable<Player> {
     }
 
     /**
-     * Set tile to be current tile
-     * @param currentTile tile to be set as current tile
+     * 将一个地图块设为该玩家的当前所在块
+     * @param currentTile 被设为当前块的地图块
      */
     void setCurrentTile(Tile currentTile) {
         this.currentTile = currentTile;
     }
 
     /**
-     * Get the players speed in x direction
-     * @return Players speed in x direction
+     * 获得玩家的x方向速度
+     * @return 玩家的x方向速度
      */
     int getDx() {
         return dx;
     }
 
     /**
-     * Get the players speed in y direction
-     * @return Players speed in y direction
+     * 获得玩家的y方向速度
+     * @return 玩家的y方向速度
      */
     int getDy() {
         return dy;
     }
 
     /**
-     * Get name of player
-     * @return Name of player
+     * 获得玩家名
+     * @return 玩家名
      */
     String getName() {
         return name;
     }
 
     /**
-     * Get alive state of player
-     * @return alive state of player
+     * 获得玩家状态
+     * @return 玩家的状态，是否存货
      */
     Boolean getAlive() {
         return isAlive;
     }
 
     /**
-     * Set alive state of player
-     * @param alive alive state of player
+     * 设置玩家的存活状态
+     * @param alive 玩家是否存活
      */
     public void setAlive(Boolean alive) {
         isAlive = alive;
     }
 
     /**
-     * Compares two players by the number of tiles owned.
-     * @param player Player to compare this to
-     * @return 1 if this owns more tiles than player, -1 if player owns more tiles than this or 0 otherwise
+     * 比较两个玩家的领土大小
+     * @param player 比较的目标
+     * @return 1 玩家领土比目标更大, -1 玩家领土比目标更小
      */
     public int compareTo(Player player){
         return Integer.compare(player.getTilesOwned().size(), tilesOwned.size());
