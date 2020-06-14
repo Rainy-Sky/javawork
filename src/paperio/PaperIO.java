@@ -25,7 +25,7 @@ public class PaperIO extends JFrame implements ActionListener{
     private Setting setting;
     private JPanel cards;
     private Image im;
-    private static boolean flag=true;
+    protected static boolean flag=true;
 
     /**
      * 游戏界面初始化

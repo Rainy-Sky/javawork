@@ -113,7 +113,7 @@ public class HumanPlayer extends Player {
 			/**
 			 * value可以用来设置音量，从0-2.0
 			 */
-			boolean flag=true;
+			boolean flag=PaperIO.flag;
 		    double value=2.0;
 			float dB = (float) (Math.log(value == 0.0 ? 0.0001 : value) / Math.log(10.0) * 20.0);
 			fc.setValue(dB);
